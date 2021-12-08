@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+        
+    <a href="{% url 'events:event-list' %}">Go back to Event list</a>
+    <hr>
+        
+    <h1>Are you sure you want to Sign Up?</h1>
+
+    <form method="post">
+        <!--{% csrf_token %} used for security purposes and is required for post forms in Django-->
+        {% csrf_token %}
+        
+        <button type="submit">Register</button>
+    </form>
+{% endblock content %}      

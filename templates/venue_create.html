@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{% url 'venues:venue-list' %}">Go back to Venues list</a>
+    <hr>
+        
+    <h1>Create New Venue</h1>
+
+    <form method="post">
+        <!--{% csrf_token %} used for security purposes and is required for post forms in Django-->
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock content %}        
+    

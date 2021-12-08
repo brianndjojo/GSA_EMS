@@ -1,0 +1,12 @@
+<!--login.html is inside registration folder because the LoginView Class View defines the template within a registration folder.-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Signup</button>
+    </form>
+{% endblock content %}
+

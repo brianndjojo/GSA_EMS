@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!--Example of Dynamic URLS-->
+    
+    
+
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">List of Events</h1>
+            <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">Collection of all Events we've gathered.</p>
+
+
+            {% if 'myevent' in request.get_full_path and request.user.is_organizer %}
+            <a href="{%url 'events:event-create' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create new Event.</button></a>
+            
+            {% elif request.user.is_organizer and not request.user.is_superuser %}
+            <a href="{%url 'events:myevent-list' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">View my Events.</button></a>
+            {%endif%}
+
+            {% if request.user.is_superuser %}
+            <a href="{%url 'events:event-create' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create new Event.</button></a>
+            {% endif %}
+          </div>
+
+          <div class="flex flex-wrap -m-4">
+
+            {% for event in events %}
+            <div class="event">
+                {% if 'myevent' in request.get_full_path and request.user.is_organizer %}
+                <a href="{% url 'events:myevent-detail' event.pk %}" class="mr-5 hover:text-gray-900">
+                {% else %}
+                <a href="{% url 'events:event-detail' event.pk %}" class="mr-5 hover:text-gray-900">
+                {%endif%}
+                    <div class="border border-gray-200 p-6 ml-4 mt-4 rounded-lg">
+                        
+                        <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <!--Anchor tag to redirect to specific lead based on distinct ID (primary key) of the lead...-->
+                        <!--Dynamic URL place necessar additional features such as lead.pk after the url-->
+                        <h2 class="text-lg text-gray-900 font-medium title-font mb-2">{{ event.event_title }}</h2>
+                        <p class="leading-relaxed text-base">Event-Venue: {{ event.venue }}</p>
+                        <p class="leading-relaxed text-base">Event-Date: {{ event.event_date }}</p>
+                        <p class="leading-relaxed text-base">Capacity: {{ event.capacity }}</p>
+                    </div>
+                </a>
+                   
+            </div>
+            {% endfor %}
+            
+          </div>
+        </div>
+      </section>
+
+
+  
+    <script src="" async defer></script>
+{% endblock content %}
