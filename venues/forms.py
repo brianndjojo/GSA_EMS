@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from users.models import User, UserProfile, Venue, Event, Checkin, Signup, Invoice
+from users.models import User, UserProfile, Venue, Event,  Signup, Invoice
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model # Returns the active model within this project.
 # Creating Form Template.. Similar to models    

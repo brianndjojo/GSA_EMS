@@ -23,7 +23,7 @@ from users.models import UserProfile, User, Venue
 # Create your views here.
 
 
-class VenueListView(LoginRequiredMixin, ListView):
+class VenueListView(ListView):
     template_name = "venue_list.html"
     context_object_name = "venues"
 
@@ -115,6 +115,7 @@ class MyVenueListView(OrganizerRequiredMixin, ListView):
             return  Venue.objects.all()
         else:
             return  Venue.objects.filter(organisation = self.request.user.userprofile)
+
 
 
 
