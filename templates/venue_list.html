@@ -10,10 +10,10 @@
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">List of Venues</h1>
             <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">All available Venues.</p>
 
-            {% if 'myvenue' in request.get_full_path and request.user.is_organizer %}
+            {% if 'myvenue' in request.get_full_path and request.user.is_organizer or request.user.is_superuser %}
             <a href="{%url 'venues:venue-create' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create new Venue.</button></a>
             
-            {% elif request.user.is_organizer %}
+            {% elif request.user.is_organizer or request.user.is_superuser %}
             <a href="{%url 'venues:myvenue-list' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">View my Venues.</button></a>
             {%endif%}
 
@@ -24,10 +24,10 @@
             {% for venue in venues %}
             <div class="venue">
             
-              {% if 'myvenue' in request.get_full_path and request.user.is_organizer %}
+              {% if 'myvenue' in request.get_full_path and request.user.is_organizer or request.user.is_superuser %}
               <a href="{% url 'venues:myvenue-detail' venue.pk %}">
                 
-              {% elif request.user.is_organizer %}
+              {% elif request.user.is_organizer or request.user.is_superuser %}
               <a href="{% url 'venues:venue-detail' venue.pk %}">
               {%endif%}
                     <div class="border border-gray-200 p-6 ml-4 mt-4 rounded-lg">

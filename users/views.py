@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-from .rolemixin import OrganizerRequiredMixin
+from .rolemixin import OrganizerRequiredMixin, AdminRequiredMixin
 
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
@@ -16,7 +16,7 @@ from .models import UserProfile, User
 
 # Create your views here.
 
-class LandingPageView(LoginRequiredMixin, TemplateView):
+class LandingPageView(TemplateView):
     # Specify Template to be used.
     template_name = "landing.html"
 
@@ -29,7 +29,7 @@ class SignUpView(CreateView):
         return reverse("login")
 
 # List View to display Agents.
-class MemberListView(LoginRequiredMixin, ListView):
+class MemberListView(AdminRequiredMixin, ListView):
     template_name = "user_list.html"
     context_object_name = "users"
 
@@ -37,7 +37,7 @@ class MemberListView(LoginRequiredMixin, ListView):
         # Filters out the queryset of agent-list specific to the same Organization..
         return  UserProfile.objects.all()
       
-class MemberDetailView(LoginRequiredMixin, DetailView):
+class MemberDetailView(AdminRequiredMixin, DetailView):
     # Specify template to be used
     template_name = "user_detail.html"
 
@@ -47,7 +47,7 @@ class MemberDetailView(LoginRequiredMixin, DetailView):
         # Filters out the queryset of agent-list specific to the same Organization..
         return  UserProfile.objects.all()
 
-class MemberUpdateView(LoginRequiredMixin, UpdateView):
+class MemberUpdateView(AdminRequiredMixin, UpdateView):
     # Specify template to be used
     template_name = "user_update.html"
 
@@ -60,7 +60,7 @@ class MemberUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self) -> str:
         return reverse("users:user-list")
 
-class MemberDeleteView(LoginRequiredMixin, DeleteView):
+class MemberDeleteView(AdminRequiredMixin, DeleteView):
     template_name = "user_delete.html"
     queryset = User.objects.all()
 

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from .views import EventListView, EventCreateView, EventDetailView, EventDeleteView, EventUpdateView, EventSignupView, MyEventListView, EventRegisteredView, CheckinCheckoutView
+from .views import EventListView, EventCreateView, EventDetailView, EventDeleteView, EventUpdateView, EventSignupView, MyEventListView, EventRegisteredView, UserInputView
 from django.shortcuts import redirect, render, reverse
 from django.http import HttpResponse
 
@@ -31,8 +31,8 @@ urlpatterns = [
     path('<int:pk>/regsitered/', EventRegisteredView.as_view(), name='event-registered'),
     path('create/', EventCreateView.as_view(), name='event-create'),
 
-    path('checkincheckout/', CheckinCheckoutView.as_view(), name='checkin-checkout'),
-
+    path('checkincheckout/', EventListView.as_view(), name='checkin-checkout'),
+     path('checkincheckout/<int:pk>/', UserInputView.as_view(), name='checkin-checkout-input'),
 
     path('myevents/', MyEventListView.as_view(), name = 'myevent-list'),
     path('myevents/<int:pk>/', EventDetailView.as_view(), name = 'myevent-detail'),

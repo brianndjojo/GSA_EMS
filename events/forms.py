@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
-from users.models import User, UserProfile, Venue, Event, Checkin, Signup, Invoice
+from django.db.models import fields
+from users.models import User, UserProfile, Venue, Event,  Signup, Invoice
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model # Returns the active model within this project.
 # Creating Form Template.. Similar to models    
@@ -41,6 +42,9 @@ class EventSignupForm(forms.ModelForm):
             "event",
             "is_registered"
         }
+
+class UserInputForm(forms.Form):
+    username = forms.CharField(max_length=20)
 
 
    

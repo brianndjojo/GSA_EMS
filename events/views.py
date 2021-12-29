@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import JsonResponse
 # Create your views here.
 from typing import List
 
@@ -12,15 +12,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from users.rolemixin import OrganizerRequiredMixin, AdminRequiredMixin
 
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, FormView
 
-from .forms import EventCreationForm, EventModelForm, EventSignupForm
-from users.models import UserProfile, User, Event, Signup
+from .forms import EventCreationForm, EventModelForm, EventSignupForm, UserInputForm
+from django.contrib.auth.models import User
+from users.models import UserProfile, Event, Signup, User
 
 # Create your views here.
 
 # List View to display Agents.
-class EventListView(LoginRequiredMixin, ListView):
+class EventListView(ListView):
     template_name = "event_list.html"
     context_object_name = "events"
 
@@ -162,14 +163,66 @@ class EventRegisteredView(LoginRequiredMixin, ListView):
 ##############################
 # For Checkin/Checkout System #
 ##############################
-class CheckinCheckoutView(AdminRequiredMixin, ListView):
-    template_name = "checkin_checkout.html"
-    context_object_name = "events"
 
-    def get_queryset(self):
-        # Filters out the queryset of agent-list specific to the same Organization..
-        
-        return Event.objects.all()
 
+##############################
+# For Checkin #
+##############################
+
+class UserInputView(LoginRequiredMixin, FormView):
+    # Specify template to be used
+    template_name = "checkin_checkout_input.html"
+    # Specify form to be used
+    form_class = UserInputForm
+
+    context_object_name = "checkinStatus"
+    # Speicfy Query Set
+
+
+    def get_success_url(self) -> str:
+        return reverse("events:event-list")
     
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.accepts('text/html'):
+            return response
+        else:
+            return JsonResponse(form.errors, status=400)
+
+    def form_valid(self, form):
+        # Save Usr-Identification input from form.
+        checkin_username = form.cleaned_data.get('username')
+        print(checkin_username)
+
+        specific_user = User.objects.all().filter(username = checkin_username)
+        print('User_PK:', specific_user.get().id)
+
+        current_event = self.kwargs.get('pk')
+        print('Event_Pk:', current_event)
+        #retrieved_profile = User.objects.all().filter(username = checkin_username)
+        #print('retrieved profile:',retrieved_profile)
+        # Search DB whether that user is already signed up into that event..
+        signedup_status = Signup.objects.filter(user = specific_user.get().id).filter(event=current_event)
+        print(signedup_status)
+        print(signedup_status.values('is_checkedin').get()['is_checkedin'])
+        print(signedup_status.exists())
+
+        #Checks if user is registered..
+        if(signedup_status.exists()):
+            if(signedup_status.values('is_checkedin').get()['is_checkedin'] is False):
+                signedup_status.update(is_checkedin = True)
+       
+
+            elif(signedup_status.values('is_checkedin').get()['is_checkedin'] is True):
+                    signedup_status.update(is_checkedin = False)
+       
+            print(signedup_status.values('is_checkedin').get()['is_checkedin'])
+   
+        return super().form_valid(form)
+
+
+   
+    
+        
 

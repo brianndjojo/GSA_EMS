@@ -76,19 +76,13 @@ class Signup(models.Model):
     event = models.ForeignKey("Event", null=True, blank=True, on_delete=models.SET_NULL)
     # Sign up status to indicate whether signed up or not
     is_registered = models.BooleanField(default=False)
+    # Checkin status for specific user.
+    is_checkedin = models.BooleanField(default=False)
 
     # returns objects in string format
     def __str__(self):
-        return f"{self.user} {self.event}"
+        return f"{self.user} {self.event} {self.is_checkedin}"
 
-class Checkin(models.Model):
-    # Signup to check sign up details
-    signup = models.OneToOneField("Signup", on_delete=models.CASCADE)
-    # Member
-    user = models.ForeignKey("UserProfile", null=True, blank=True, on_delete=models.SET_NULL)
-    # returns objects in string format
-    def __str__(self):
-        return self.user.username
 
 # Changes to be implemented to User DB when User instance is created/edited.
 def post_user_created_signal(sender, instance, created, **kwargs):
