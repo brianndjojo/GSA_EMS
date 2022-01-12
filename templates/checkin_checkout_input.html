@@ -1,16 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load tailwind_filters %}
 
 {% block content %}
-        
-    <a href="{% url 'events:event-list' %}">Go back to Event list</a>
+<div class="max-w-lg m-auto">
+    <a href="{% url 'events:event-admin-list' %}">Go back to Admin-list</a>
     <hr>
-        
     <h1>Please Input User-Credentials:</h1>
-
-    <form method="post">
-        <!--{% csrf_token %} used for security purposes and is required for post forms in Django-->
+    <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        {{ form|crispy }}
+        <button type="submit" class='text-white w-full bg-blue-500 hover:bg-blue-600 px-3 py-1'>Verify</button>
     </form>
-{% endblock content %}      
+    
+</div>
+{% endblock content %}

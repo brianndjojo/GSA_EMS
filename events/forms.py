@@ -6,21 +6,10 @@ from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model # Returns the active model within this project.
 # Creating Form Template.. Similar to models    
 
-# Inherit from Model to make a form
-class EventModelForm(forms.ModelForm):
-    # Meta specifies information about the form.
-    class Meta:
-        model = Event
-        fields = {
-            'venue',
-            'event_title',
-            'event_date',
-            'capacity',
-        }
 
 # Customize UserCreationForm since Django automatically uses the built-in Django User-Model.
 # We customize it to use our own active User
-class EventCreationForm(forms.ModelForm):
+class EventInputForm(forms.ModelForm):
     # Meta specifies information about the form.
      class Meta:
         model = Event # Returns the User Model that is active in this project.
@@ -28,11 +17,13 @@ class EventCreationForm(forms.ModelForm):
             "venue",
             "event_title",
             "event_date",
-            "capacity"
+            "rule_list",
+            "capacity",
+            "event_price"
         }
 
 
-
+#For signing up an event..
 class EventSignupForm(forms.ModelForm):
     class Meta:
         model = Signup 
@@ -43,6 +34,7 @@ class EventSignupForm(forms.ModelForm):
             "is_registered"
         }
 
+#For checking in & checking out of event
 class UserInputForm(forms.Form):
     username = forms.CharField(max_length=20)
 

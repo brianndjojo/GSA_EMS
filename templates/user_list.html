@@ -5,19 +5,13 @@
     
     
 
-    <section class="text-gray-600 body-font">
+      <section class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
           <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">List of Users</h1>
-            <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">All available users.</p>
-
-            
-
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">All Available Users</h1>
+            <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">List of all available usrs registered.</p>
           </div>
-
-          <div class="flex flex-wrap -m-4">
-
-            {% for user in users %}
+          {% for user in users %}
             <div class="user">
               <a href="{% url 'users:user-detail' user.pk %}">
                     <div class="border border-gray-200 p-6 ml-4 mt-4 rounded-lg">
@@ -35,11 +29,9 @@
               </a> 
             </div>
             {% endfor %}
-            
-          </div>
+          
         </div>
       </section>
-
 
   
     <script src="" async defer></script>

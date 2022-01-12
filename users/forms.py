@@ -9,11 +9,18 @@ from django.contrib.auth import get_user_model # Returns the active model within
 class UserModelForm(forms.ModelForm):
     # Meta specifies information about the form.
     class Meta:
-        model = User
+        model = get_user_model()
         fields = {
+            'username',
             'first_name',
             'last_name',
             'email',
+            'phone_number',
+            'is_blacklist',
+            'is_organizer',
+            'organisation_name',
+            'is_regular',
+            'is_beginner'
         }
 
 # Customize UserCreationForm since Django automatically uses the built-in Django User-Model.
@@ -26,7 +33,8 @@ class CustomCreationForm(UserCreationForm):
             "username",
             "first_name",
             "last_name",
-            "email"
+            "email",
+            "phone_number"
         }
         field_classes = {'username': UsernameField}
 

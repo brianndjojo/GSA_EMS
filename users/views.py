@@ -1,8 +1,9 @@
 from typing import List
+from django.contrib.auth import get_user_model
 
 from django.shortcuts import redirect, render, reverse
 from django.core.mail import send_mail
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -51,8 +52,6 @@ class MemberUpdateView(AdminRequiredMixin, UpdateView):
     # Specify template to be used
     template_name = "user_update.html"
 
-    # Speicfy Query Set
-    queryset = User.objects.all()
     # Instead of Query, we specify the formclass to be used.
     form_class = UserModelForm
 
@@ -60,15 +59,29 @@ class MemberUpdateView(AdminRequiredMixin, UpdateView):
     def get_success_url(self) -> str:
         return reverse("users:user-list")
 
+    def get_queryset(self):
+        print(self.kwargs.get('pk'))
+        user_id = UserProfile.objects.filter(id = self.kwargs.get('pk')).get().user_id
+        specific_user = User.objects.filter(id = user_id)
+        return specific_user
+    
+
 class MemberDeleteView(AdminRequiredMixin, DeleteView):
     template_name = "user_delete.html"
-    queryset = User.objects.all()
-
+   
     def get_success_url(self) -> str:
         return reverse("users:user-list")
 
-        
+    def get_queryset(self):
+        print(self.kwargs.get('pk'))
+        user_id = UserProfile.objects.filter(id = self.kwargs.get('pk')).get().user_id
+        print(user_id)
+        specific_user = User.objects.filter(id = user_id)
+        print(specific_user)
+        return specific_user
     
+        
+
     
 
 

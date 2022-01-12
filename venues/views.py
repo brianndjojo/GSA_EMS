@@ -64,8 +64,8 @@ class VenueCreateView(OrganizerRequiredMixin, CreateView):
         )
         # Automatically saves organisation as user who created it.
         obj = form.save(commit=False)
-        obj.user = self.request.user.userprofile
-        obj.organisation = obj.user
+        #obj.user = self.request.user.userprofile
+        obj.organisation = self.request.user.userprofile
         obj.save()
     
         # Once email is sent return back to what the form was originally supposed to do.

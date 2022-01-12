@@ -18,6 +18,8 @@
 
             {% for event in regevent %}
             <div class="event">
+              
+              <a href="{% url 'events:event-registered-detail' event.event.pk %}" class="mr-5 hover:text-gray-900">
                <div class="border border-gray-200 p-6 ml-4 mt-4 rounded-lg">
                     <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
                         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
@@ -31,6 +33,7 @@
                     <p class="leading-relaxed text-base">Event-Date: {{ event.event.event_date }}</p>
                     <p class="leading-relaxed text-base">Capacity: {{ event.event.capacity }}</p>
                 </div>    
+              </a>
             </div>
             {% endfor %}
             

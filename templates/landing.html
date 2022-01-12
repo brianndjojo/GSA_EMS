@@ -11,7 +11,7 @@
 
         {% if request.user.is_authenticated %}
         <div class="flex justify-center">
-            <a href="{% url 'events:event-list' %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Venues</button> </a>
+            <a href="{% url 'venues:venue-list' %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Venues</button> </a>
         </div>
     
         <div class="flex justify-center mt-3">    

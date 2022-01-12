@@ -27,7 +27,7 @@
 
       {% if request.user.is_authenticated %}
       {% if request.user.is_superuser %}
-      <a href="{% url 'events:checkin-checkout'%}" class="mr-5 hover:text-gray-900">Checkin/Checkout View</a>
+      <a href="{% url 'events:event-admin-list'%}" class="mr-5 hover:text-gray-900">Event-Admin-View</a>
       {% else %}
       <a href="{% url 'events:event-registered' request.user.pk %}" class="mr-5 hover:text-gray-900">Registered-Events</a>
       {% endif %}

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from .views import EventListView, EventCreateView, EventDetailView, EventDeleteView, EventUpdateView, EventSignupView, MyEventListView, EventRegisteredView, UserInputView
+from .views import EventListView, EventCreateView, EventDetailView, EventDeleteView, EventUpdateView, EventSignupView, MyEventListView, EventRegisteredView,  EventAdminLandingPageView, CheckinCheckoutInputView, EventAdminUserView, CheckinCheckoutUpdateView, event_unregister, switch_teams, set_payment
 from django.shortcuts import redirect, render, reverse
 from django.http import HttpResponse
 
@@ -29,10 +29,18 @@ urlpatterns = [
     path('<int:pk>/delete/', EventDeleteView.as_view(), name='event-delete'),
     path('<int:pk>/regsiter/', EventSignupView.as_view(), name='event-signup'),
     path('<int:pk>/regsitered/', EventRegisteredView.as_view(), name='event-registered'),
+    path('<int:pk>/registeredDetail', EventDetailView.as_view(), name = 'event-registered-detail'),
+    path('<int:pk>/unregister/', event_unregister, name='event-unregister'),
+
     path('create/', EventCreateView.as_view(), name='event-create'),
 
-    path('checkincheckout/', EventListView.as_view(), name='checkin-checkout'),
-     path('checkincheckout/<int:pk>/', UserInputView.as_view(), name='checkin-checkout-input'),
+    path('eventadmin/', EventListView.as_view(), name='event-admin-list'),
+    path('eventadmin/<int:pk>/', EventAdminLandingPageView.as_view(), name='event-admin-landing'),
+    path('eventadmin/<int:pk>/checkincheckout/', CheckinCheckoutInputView.as_view(), name='checkin-checkout-input'),
+    path('eventmanage/<int:pk>/', EventAdminUserView.as_view(), name='event-manage-user'),
+    path('eventmanage/<int:pk>/update', CheckinCheckoutUpdateView.as_view(), name='checkin-checkout-update'),
+    path('eventmanage/<int:pk>/switch', switch_teams, name='switch-teams'),
+    path('eventmanage/<int:pk>/pay', set_payment, name='set-payment'),
 
     path('myevents/', MyEventListView.as_view(), name = 'myevent-list'),
     path('myevents/<int:pk>/', EventDetailView.as_view(), name = 'myevent-detail'),

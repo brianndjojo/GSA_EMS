@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load tailwind_filters %}
 {% block content %}
     <a href="{% url 'venues:venue-list' %}">Go back to Venues list</a>
     <hr>
@@ -9,8 +9,9 @@
     <form method="post">
         <!--{% csrf_token %} used for security purposes and is required for post forms in Django-->
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        {{ form|crispy }}
+        <button type="submit" class='text-white w-full bg-blue-500 hover:bg-blue-600 px-3 py-1'>Create</button>
     </form>
 {% endblock content %}        
+      
     

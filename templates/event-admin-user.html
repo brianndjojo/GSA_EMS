@@ -1,0 +1,56 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+  
+    <section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-col text-center w-full mb-20">
+        <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EVENT-RECORD FOR {{specificUser.event.event_title}} </h2>
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">User: {{specificUser.user.user.username}}</h1>
+        </div>
+        <div class="flex flex-wrap">
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Checkin-Status</h2>
+                <p class="leading-relaxed font-medium text-base mb-4">Status: {{specificUser.is_checkedin}}</p>
+            </div>
+            
+
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Invoice</h2>
+                <p class="leading-relaxed text-base mb-4">paid: {{specificUser.is_paid}}</p>
+            </div>
+            
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Team</h2>
+                {%if specificUser.team is 0 %}
+                <p class="leading-relaxed text-base mb-4">Blue</p>
+                {% elif specificUser.team is 1 %}
+                <p class="leading-relaxed text-base mb-4">Red</p>
+                {%endif%}
+            </div>
+            
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Regular</h2>
+                <p class="leading-relaxed text-base mb-4">{{specificUser.user.user.is_regular}}</p>
+            </div>
+        </div>
+        <hr>
+        <a href="{%url 'events:checkin-checkout-update' specificUser.id %}">
+        {%if specificUser.is_checkedin is True%}
+        <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Checkout</button>
+        {%else%}
+        <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Checkin</button>
+        {%endif%}
+        </a>
+
+        <a href="{%url 'events:switch-teams' specificUser.id %}">
+            <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Switch-Teams</button>
+        </a>
+
+        <a href="{%url 'events:set-payment' specificUser.id %}">
+            <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Set-Payment</button>
+        </a>
+    </div>
+    </section>
+{% endblock content %}

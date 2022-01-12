@@ -29,9 +29,40 @@
                     <span class="ml-auto text-gray-900">{{ user.user.first_name }} {{ user.user.last_name }}</span>
                 </div>
                 
-                <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Email:</span>
                     <span class="ml-auto text-gray-900">{{ user.user.email }}</span>
+                </div>
+
+            
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Telephone-Number:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.phone_number }}</span>
+                </div>
+                
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_blacklist:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_blacklist }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_organizer:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_blacklist }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_regular:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_regular }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_beginner:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_beginner }}</span>
+                </div>
+
+                <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                    <span class="text-gray-500">Organization:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.organisation_name }}</span>
                 </div>
             
             </div>

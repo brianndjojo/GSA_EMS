@@ -13,6 +13,11 @@ class VenueModelForm(forms.ModelForm):
         fields = {
             'venue_address',
             'venue_price',
+            "venue_title",
+            "venue_address",
+            "venue_desc",
+            "venue_rules",
+            "venue_price",
         }
 
 # Customize UserCreationForm since Django automatically uses the built-in Django User-Model.
@@ -22,7 +27,10 @@ class VenueCreationForm(forms.ModelForm):
      class Meta:
         model = Venue # Returns the User Model that is active in this project.
         fields = {
+            "venue_title",
             "venue_address",
+            "venue_desc",
+            "venue_rules",
             "venue_price",
         }
     

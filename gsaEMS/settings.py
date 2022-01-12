@@ -37,11 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #third-party apps
+    'crispy_forms',
+    'crispy_tailwind',
+
+    #local apps
     'users',
     'events',
     'venues'
     
 ]
+
+#https://github.com/django-crispy-forms/crispy-tailwind
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -146,3 +157,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 
 LOGIN_URL = "/login"
+

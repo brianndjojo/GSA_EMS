@@ -11,21 +11,35 @@
             <div class="lg:w-4/5 mx-auto flex flex-wrap">
                 <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                 <h2 class="text-sm title-font text-gray-500 tracking-widest">Venue</h2>
-                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ venue.venue_address }} </h1>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ venue.venue_title }} </h1>
 
                 <div class="flex mb-4">
                     <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Description</a>
                 </div>
 
-                
                 <div class="flex border-t border-gray-200 py-2">
-                    <span class="text-gray-500">Price</span>
+                    <span class="text-gray-500">Venue-Address</span>
+                    <span class="ml-auto text-gray-900">{{ venue.venue_address }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Venue-Price</span>
                     <span class="ml-auto text-gray-900">{{ venue.venue_price }}</span>
                 </div>
                 
                 <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Venue-Desc</span>
+                    <span class="ml-auto text-gray-900">{{ venue.venue_desc }}</span>
+                </div>
+                
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Venue-Rules</span>
+                    <span class="ml-auto text-gray-900">{{ venue.venue_rules }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Organization</span>
-                    <span class="ml-auto text-gray-900">{{ venue.organisation }}</span>
+                    <span class="ml-auto text-gray-900">{{ venue.organisation.user.organisation_name }}</span>
                 </div>
                 
                 
