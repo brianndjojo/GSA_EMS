@@ -1,9 +1,11 @@
 from typing import List
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect, JsonResponse
 
 from django.shortcuts import redirect, render, reverse
 from django.core.mail import send_mail
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, FormView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -12,14 +14,40 @@ from .rolemixin import OrganizerRequiredMixin, AdminRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
 
+import json
 from .forms import CustomCreationForm, UserModelForm
-from .models import UserProfile, User
+from .models import User, UserProfile
+from .serializers import UserSerializer, UserModelSerializer
+from rest_framework.renderers import JSONRenderer
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response  import Response
+
+
+
 
 # Create your views here.
+
+# Filter Users
+#def search_user(request):
+#    users = User.objects.all()
+#    search_filter = request.GET.get('specific-user')
+#    print(search_filter)
+#    search_user = users.filter(username = search_filter)
+#    if(search_user.exists()):
+#        return UserProfile.objects.all().filter(user_id = search_user.get().id)
+#    return UserProfile.objects.all()
 
 class LandingPageView(TemplateView):
     # Specify Template to be used.
     template_name = "landing.html"
+    
+    def get(self, *args, **kwargs):
+        if(not self.request.user.is_authenticated):
+            return redirect('login')
+        return super().get(self.request, *args, **kwargs)
+
+    
 
 # Create a Singup view, because Django does not have a Sign Up View. However, it has a Login and Logout view.
 class SignUpView(CreateView):
@@ -35,9 +63,39 @@ class MemberListView(AdminRequiredMixin, ListView):
     context_object_name = "users"
 
     def get_queryset(self):
-        # Filters out the queryset of agent-list specific to the same Organization..
-        return  UserProfile.objects.all()
+        return UserProfile.objects.all()
+    # pass the context data of users as JSON to the frontend
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        users = User.objects.all().values()
+        
+            
+        # UserModelSerailizer filters out the JSON data to only show what is necessary rather than all the attributes within the record.
+        serializer = UserModelSerializer(users, many = True)
       
+        # Render the serialized data as a JSON object.
+        data = JSONRenderer().render(serializer.data)
+        print('serialized data',data)
+        print(type(serializer))
+        print(type(data))
+        data2 = data.decode('utf-8')
+        print(type(data2))
+        print(data2)
+        # Assign the Context as the JSON Object.
+        context['users_list'] = data2
+      
+        return context
+    
+
+class MemberListAPI(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserModelSerializer
+
+class MemberListAPIDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserModelSerializer
+
 class MemberDetailView(AdminRequiredMixin, DetailView):
     # Specify template to be used
     template_name = "user_detail.html"

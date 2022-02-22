@@ -1,4 +1,5 @@
 # Create your models here.
+from email.policy import default
 from enum import unique
 from django.db import models
 
@@ -27,6 +28,8 @@ class User(AbstractUser):
     is_regular = models.BooleanField(default=False)
     is_beginner = models.BooleanField(default=False)
 
+
+
 # User Profile manages all details for users.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -40,7 +43,6 @@ class Venue(models.Model):
 
     venue_address = models.CharField(max_length=20)
     
-    venue_price = models.IntegerField(default=0)
   
     venue_desc = models.CharField(null = True, max_length=200)
     venue_rules = models.CharField(null = True, max_length=200)
@@ -63,29 +65,19 @@ class Event(models.Model):
     capacity = models.IntegerField(default=0)
     current_capacity = models.IntegerField(default=0)
     event_price = models.IntegerField(default=0)
+    available = models.BooleanField(default = True)
+    event_desc = models.CharField(max_length=200, blank= True, null=True)
     # returns objects in string format
     def __str__(self):
-        return f"{self.event_title} {self.organisation} {self.current_capacity}"
+        return f"{self.event_title}"
 
     
-                                            
-
-class Invoice(models.Model):
-    # Member ID for the invoice given to
-    user = models.ForeignKey("UserProfile", null=True, blank=True, on_delete=models.CASCADE)
-    
-    amount = models.IntegerField(default=0)
-    description = models.CharField(max_length=20, null=True, blank=True)
-    attachments = models.CharField(max_length=20)
-    # returns objects in string format
-    def __str__(self):
-        return self.user.username
 
 class Signup(models.Model):
     # usercs can have many signups
     user = models.ForeignKey("UserProfile", null=True, blank=True, on_delete=models.SET_NULL)
-    # invoice for signup
-    invoice = models.ForeignKey("Invoice", null=True, blank=True, on_delete=models.SET_NULL)
+
+    
     # Event specified for signup
     event = models.ForeignKey("Event", null=True, blank=True, on_delete=models.CASCADE)
     # Sign up status to indicate whether signed up or not
@@ -98,9 +90,16 @@ class Signup(models.Model):
 
     # to check whether user has paid.
     is_paid = models.BooleanField(null = True, default=False)
+
+
+    amount = models.IntegerField(default=0)
+    description = models.CharField(max_length=20, null=True, blank=True)
+    attachments = models.CharField(max_length=20)
     # returns objects in string format
     def __str__(self):
         return f"{self.user} {self.event} {self.is_checkedin}"
+
+
 
 
 # Changes to be implemented to User DB when User instance is created/edited.
@@ -113,23 +112,29 @@ def post_user_created_signal(sender, instance, created, **kwargs):
         UserProfile.objects.create(user = instance)
 
 
-# Changes to be implemented to User DB when User instance is created/edited.
-@receiver(pre_save, sender=Event)
-def pre_event_created_signal(sender, **kwargs):
-    # created is used to check whether an instance is created at the very moment this function is called.
-   
+# Changes to be implemented to Event DB when Event instance is created/edited.
+@receiver(post_save, sender=Event)
+def post_event_created_signal(sender, instance, created, **kwargs):
+    if created:
 
-    # Creates UserProfile only when a new User is created. Otherwise, no point.
-    
-    specific_event = sender.objects.get()
-    print(specific_event.current_capacity)
-    specific_event.current_capacity = specific_event.capacity
-    print(specific_event.current_capacity)
-    specific_event.save()
+        instance.current_capacity=instance.capacity
+        print('current capacity:',instance.current_capacity)
+        instance.save()
+
+# Changes to be implemented to Event DB when Event instance is created/edited.
+@receiver(post_save, sender=Signup)
+def post_signup_created_signal(sender, instance, created, **kwargs):
+    if created:
+        if(instance.event.current_capacity > 0):
+            instance.amount = instance.amount + instance.event.event_price
+            print('current capacity:',instance.event.event_price)
+            instance.save()
+     
+     
 
 # Django includes a “signal dispatcher” which helps allow decoupled applications get notified when actions occur elsewhere in the framework.
 # https://docs.djangoproject.com/en/4.0/ref/signals/#post-save
 # https://stackoverflow.com/questions/35949755/django-when-should-i-use-signals-and-when-should-i-override-save-method
 post_save.connect(post_user_created_signal, sender=User)
-pre_save.connect(pre_event_created_signal, sender=Event)
-
+post_save.connect(post_event_created_signal, sender=Event)
+post_save.connect(post_signup_created_signal, sender=Signup)
