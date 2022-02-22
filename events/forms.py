@@ -1,7 +1,7 @@
 from django import forms
 from django.db import models
 from django.db.models import fields
-from users.models import User, UserProfile, Venue, Event,  Signup, Invoice
+from users.models import User, UserProfile, Venue, Event,  Signup
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model # Returns the active model within this project.
 # Creating Form Template.. Similar to models    
@@ -19,7 +19,9 @@ class EventInputForm(forms.ModelForm):
             "event_date",
             "rule_list",
             "capacity",
-            "event_price"
+            "event_price",
+            "available",
+            "event_desc"
         }
 
 
@@ -29,7 +31,6 @@ class EventSignupForm(forms.ModelForm):
         model = Signup 
         fields = {
             "user",
-            "invoice",
             "event",
             "is_registered"
         }

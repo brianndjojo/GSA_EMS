@@ -1,8 +1,9 @@
-
+from pipes import Template
 from django.shortcuts import (get_object_or_404,
                               render,
                               HttpResponseRedirect)
 
+from itertools import chain
 from django.http import JsonResponse
 # Create your views here.
 from typing import List
@@ -19,24 +20,39 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView, FormView
 
 from .forms import EventInputForm, EventSignupForm, UserInputForm
-from django.contrib.auth.models import User
-from users.models import UserProfile, Event, Signup, User
+#from django.contrib.auth.models import User
+from users.models import User, UserProfile, Event, Signup, User
 
-from itertools import chain
+# To serialize for JSON objects
+from django.core.serializers import serialize
+from django.http import HttpResponse
+
+
 # Create your views here.
 
 # Both GET and POST method is used to transfer data from client to server in HTTP protocol but Main difference between POST and GET method is that GET carries request parameter appended in URL string while POST carries request parameter in message body which makes it more secure way of transferring data from client to ...
 # So essentially GET is used to retrieve remote data, and POST is used to insert/update remote data.
 
-# List View to display Agents.
-class EventListView(ListView):
+# Filter Events
+def search_event(request):
+    events = Event.objects.all()
+    search_filter = request.GET.get('specific-event')
+    print(search_filter)
+    search_event = events.filter(event_title = search_filter)
+    if(search_event.exists()):
+        return events.filter(event_title = search_filter)
+    return Event.objects.all()
+
+# List View to display Events
+class EventListView(LoginRequiredMixin, ListView):
     template_name = "event_list.html"
     context_object_name = "events"
 
     def get_queryset(self):
         # Filters out the queryset of agent-list specific to the same Organization..
-        return  Event.objects.all()
-       
+        event = search_event(self.request)
+        return  event
+
 
 class EventCreateView(OrganizerRequiredMixin, CreateView):
     # Specify template to be used
@@ -160,6 +176,7 @@ class EventSignupView(LoginRequiredMixin, CreateView):
         selectedEvent = Event.objects.get(id = self.kwargs.get('pk'))
         currentUser = UserProfile.objects.get(user = User.objects.get(id = self.request.user.pk))
         existStatus = Signup.objects.filter(event = selectedEvent).filter(user = currentUser)
+        
         print('Event-exists:',existStatus.exists())
         if(not existStatus.exists() and selectedEvent.capacity > 0):
             # Signup
@@ -173,6 +190,7 @@ class EventSignupView(LoginRequiredMixin, CreateView):
             if(selectedEvent.current_capacity > 0): 
                 selectedEvent.current_capacity = selectedEvent.current_capacity - 1
                 print("Remaining Capacity:", selectedEvent.current_capacity)
+                
                 selectedEvent.save()
 
             #
@@ -384,4 +402,27 @@ def set_payment(request, pk):
     return redirect("events:event-manage-user", pk)   
     
         
+class EventAdminPlayerListView(AdminRequiredMixin ,ListView):
+    # Specify Template to be used.
+    template_name = "player_list.html"
+    context_object_name = 'players'
+    
+    def get_queryset(self):
+        signup_pk = self.kwargs.get('pk')
+        signedup_event = Signup.objects.filter(event_id = signup_pk)
+        print('retrieved signups',signedup_event)
+        return Signup.objects.filter(event_id = signup_pk)
 
+
+def return_events_json(request):
+    events = Event.objects.all()
+    data = serialize("json", events, fields=('title', 'content'))
+    return HttpResponse(data, content_type="application/json")
+
+
+class CalendarView(LoginRequiredMixin, ListView):
+    template_name = "calendar.html"
+    
+    def get_queryset(self):
+        return return_events_json(self.request)
+    
