@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--Example of Dynamic URLS-->
+    
+    
+
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">List of Venues</h1>
+            <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">All available Venues.</p>
+
+            {% if 'myvenue' in request.get_full_path and request.user.is_organizer or request.user.is_superuser %}
+            <a href="{%url 'venues:venue-create' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create new Venue.</button></a>
+            
+            {% elif request.user.is_organizer or request.user.is_superuser %}
+            <a href="{%url 'venues:myvenue-list' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">View my Venues.</button></a>
+            {%endif%}
+
+          </div>
+
+          <div class="container px-5 py-24 mx-auto">
+
+            <form method="GET" autocomplete = 'on' >
+              <div class="flex w-full justify-center items-end">
+                <div class="relative mr-4 lg:w-full xl:w-1/2 w-2/4 md:w-full text-left">
+                  <label for="hero-field" class="leading-7 text-sm text-gray-600">Filter</label>
+                  <input type="text" id="hero-field" name="specific-venue" class="w-full bg-gray-100 bg-opacity-50 rounded focus:ring-2 focus:ring-indigo-200 focus:bg-transparent border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" type='search' onchange="this.form.submit()">Search</button>
+              </div>
+            </form>
+  
+
+            {% for venue in venues %}
+            <div class="venue">
+            
+              {% if 'myvenue' in request.get_full_path and request.user.is_organizer or request.user.is_superuser %}
+              <a href="{% url 'venues:myvenue-detail' venue.pk %}">
+                
+              {% elif request.user.is_organizer or request.user.is_superuser %}
+              <a href="{% url 'venues:venue-detail' venue.pk %}">
+              {%endif%}
+                    <div class="border border-gray-200 p-6 ml-4 mt-4 rounded-lg">
+                        
+                        <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <!--Anchor tag to redirect to specific lead based on distinct ID (primary key) of the lead...-->
+                        <!--Dynamic URL place necessar additional features such as lead.pk after the url-->
+                        <h2 class="text-lg text-gray-900 font-medium title-font mb-2">{{ venue.venue_title }}</h2>
+                        <h2 class="text-lg text-gray-900 title-font mb-2">{{ venue.venue_address }}</h2>
+                        <h2 class="text-lg text-gray-900 title-font mb-2">{{ venue.venue_desc }}</h2>
+                    </div>
+              </a> 
+            </div>
+            {% endfor %}
+        </div>
+      </section>
+
+  
+    <script src="" async defer></script>
+{% endblock content %}

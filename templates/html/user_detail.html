@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <a href="{% url 'users:user-list' %}">Go back to User-list</a>
+    <hr>
+
+    <section class="text-gray-600 body-font overflow-hidden">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="lg:w-4/5 mx-auto flex flex-wrap">
+                <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+                <h2 class="text-sm title-font text-gray-500 tracking-widest">User</h2>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ lead.firstname }} {{ lead.lastname }} </h1>
+
+                <div class="flex mb-4">
+                    <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Description</a>
+                </div>
+
+                <p class="leading-relaxed mb-4">A User Profile.</p>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Username</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.username }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Full Name:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.first_name }} {{ user.user.last_name }}</span>
+                </div>
+                
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Email:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.email }}</span>
+                </div>
+
+            
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Telephone-Number:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.phone_number }}</span>
+                </div>
+                
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_blacklist:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_blacklist }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_organizer:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_blacklist }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_regular:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_regular }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">is_beginner:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.is_beginner }}</span>
+                </div>
+
+                <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                    <span class="text-gray-500">Organization:</span>
+                    <span class="ml-auto text-gray-900">{{ user.user.organisation_name }}</span>
+                </div>
+            
+            </div>
+            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
+            
+            <div class="flex">
+                {% if request.user.is_superuser %}
+                <a href="{%url 'users:user-update' user.pk %}"><button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Update</button></a>
+                
+                <a href="{%url 'users:user-delete' user.pk %}"><button class="flex ml-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</button></a>
+                {% endif %}
+            </div>
+            
+        </div>
+        </div>
+    </section>
+       
+    <script src="" async defer></script>
+
+{% endblock content %}

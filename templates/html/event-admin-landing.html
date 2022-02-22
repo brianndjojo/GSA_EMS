@@ -1,0 +1,87 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+  
+    <section class="text-gray-600 body-font">
+    <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
+        <img class="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded" alt="hero" src="https://dummyimage.com/720x600">
+        <div class="text-center lg:w-2/3 w-full">
+        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{{ event.event_title }}</h1>
+      
+
+        {% if request.user.is_superuser %}
+        <div class="flex justify-center">
+            <a href="{% url 'events:checkin-checkout-input' event.pk %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Checkin-Checkout-System</button> </a>
+        </div>
+        
+        <div class="flex justify-center mt-3">    
+            <a href="{% url 'events:event-admin-playerlist' event.pk %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Player-List</button> </a>
+        </div>
+
+        <div class="flex justify-center mt-3">    
+            <a href="{% url 'events:event-registered' request.user.pk %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Event-Tools</button> </a>
+        </div>
+        {%endif%}
+    </div>
+    </section>
+
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-col text-center w-full mb-20">
+            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Player-List</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">List of Players that are registered.</p>
+          </div>
+          <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+            <table class="table-auto w-full text-left whitespace-no-wrap">
+                <thead>
+                    <tr>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Player</th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Team</th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Paid</th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Checkin-Status</th>
+                    <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                {%for player in players%}
+                <tr>
+    
+                    {%if player.team is 0%}
+                    <td class="px-4 py-3" class="text-blue-900">{{player.user.user.username}}</td>
+                    {%else%}
+                    <td class="px-4 py-3" class="text-red-900">{{player.user.user.username}}</td>
+                    {%endif%}
+    
+                    {%if player.team is 0%}
+                    <td class="px-4 py-3">Blue</td>
+                    {%else%}
+                    <td class="px-4 py-3">Red</td>
+                    {%endif%}
+    
+                    <td class="px-4 py-3">{{player.is_paid}}</td>
+                    <td class="px-4 py-3 text-lg text-gray-900">{{player.is_checkedin}}</td>
+                    <td class="w-10 text-center">
+                        <a href="{%url 'events:event-manage-user' player.pk %}">
+                            <button type="submit" class='text-white w-full bg-blue-500 hover:bg-blue-600 px-3 py-1'>Manage</button>
+                        </a>
+                        
+                    </td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+          </div>
+          <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
+            <a class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">Export
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          
+          </div>
+        </div>
+      </section>
+   
+{% endblock content %}

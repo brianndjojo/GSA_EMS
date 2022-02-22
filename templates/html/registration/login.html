@@ -1,0 +1,22 @@
+<!--login.html is inside registration folder because the LoginView Class View defines the template within a registration folder.-->
+
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+
+{% block content %}
+<div class="max-w-lg m-auto">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class='text-white w-full bg-blue-500 hover:bg-blue-600 px-3 py-1'>Login</button>
+    </form>
+    <div class="py-5 border-t border-gray-200 mt-5 grid grid-cols-6 gap-4">
+        <div class="col-start-1 col-end-3 ..."><a class="hover:text-blue-500" href="{% url 'resetpass' %}">Forgot password?</a></div>
+        <div class="col-end-7 col-span-2 place-self-end ..."><a class="hover:text-blue-500 " href="{% url 'signup' %}">New User?</a></div>
+        
+
+    </div>
+
+</div>
+{% endblock content %}
+
