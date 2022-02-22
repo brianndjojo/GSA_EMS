@@ -22,14 +22,23 @@ from users.models import UserProfile, User, Venue
 
 # Create your views here.
 
+# Filter Venues
+def search_venue(request):
+    venues = Venue.objects.all()
+    search_filter = request.GET.get('specific-venue')
+    print(search_filter)
+    search_venue = venues.filter(venue_title = search_filter)
+    if(search_venue.exists()):
+        return venues.filter(venue_title = search_filter)
+    return Venue.objects.all()
 
-class VenueListView(ListView):
+class VenueListView(LoginRequiredMixin, ListView):
     template_name = "venue_list.html"
     context_object_name = "venues"
 
     def get_queryset(self):
         # Filters out the queryset of agent-list specific to the same Organization..
-        return  Venue.objects.all()
+        return  search_venue(self.request)
 
 class VenueDetailView(LoginRequiredMixin, DetailView):
     # Specify template to be used

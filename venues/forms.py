@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from users.models import User, UserProfile, Venue, Event,  Signup, Invoice
+from users.models import User, UserProfile, Venue, Event,  Signup
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model # Returns the active model within this project.
 # Creating Form Template.. Similar to models    
@@ -12,12 +12,10 @@ class VenueModelForm(forms.ModelForm):
         model = Venue
         fields = {
             'venue_address',
-            'venue_price',
             "venue_title",
             "venue_address",
             "venue_desc",
             "venue_rules",
-            "venue_price",
         }
 
 # Customize UserCreationForm since Django automatically uses the built-in Django User-Model.
@@ -31,7 +29,6 @@ class VenueCreationForm(forms.ModelForm):
             "venue_address",
             "venue_desc",
             "venue_rules",
-            "venue_price",
         }
     
 
