@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,8 +28,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GOOGLE_MAPS_API_KEY = 'AIzaSyDvhBmLgo9qIYMKf5aLElPHt8wEcITWXiE'
 
 # Application definition
+
+# To improve Security: 
+# https://opensource.com/article/18/1/10-tips-making-django-admin-more-secure
+# https://hackernoon.com/5-ways-to-make-django-admin-safer-eb7753698ac8
+
+# To check whether the website is secure enough: https://djcheckup.com/
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,8 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #third-party apps
+    # REST framwork for powerful and flexible toolkit for building Web APIs
+    'rest_framework',
     'crispy_forms',
     'crispy_tailwind',
+    #FOR SECURITY
+    #https://github.com/dmpayton/django-admin-honeypot
+    'admin_honeypot',
+  
 
     #local apps
     'users',
@@ -53,6 +67,11 @@ INSTALLED_APPS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
 CRISPY_TEMPLATE_PACK = "tailwind"
+
+# Calendarium
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.template.context_processors.request',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,7 +88,7 @@ ROOT_URLCONF = 'gsaEMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [BASE_DIR / "templates" / "html"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,12 +152,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'templates/static/'
 
 # Specifies the directory for Static Files.
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / "templates" / "static",
+    BASE_DIR / "templates" / "static" / "css",
+    BASE_DIR / "templates" / "static" / "js",
 ]
+
+
 STATIC_ROOT = "static_root"
 
 # Informs Django which apps have customized user-models..
@@ -158,3 +181,11 @@ LOGIN_REDIRECT_URL = "/"
 
 LOGIN_URL = "/login"
 
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}

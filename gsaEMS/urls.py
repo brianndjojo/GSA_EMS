@@ -18,10 +18,13 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, 
 from django.urls import path
 from django.urls.conf import include
 from users.views import LandingPageView, SignUpView
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('api/', include('rest_framework.urls')),
+    path('moderation/', admin.site.urls),
     path('', LandingPageView.as_view(), name='landing-page'),
     path('users/', include('users.urls', namespace='users')),
     path('events/', include('events.urls', namespace='events')),
@@ -33,6 +36,4 @@ urlpatterns = [
     path('reset/complete', PasswordResetCompleteView.as_view(), name="password_reset_complete"),
     path('reset/done', PasswordResetDoneView.as_view(), name="password_reset_done"),
     path('reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
-    
-    
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
