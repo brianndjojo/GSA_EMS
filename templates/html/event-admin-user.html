@@ -4,12 +4,14 @@
 {% block content %}
   
     <section class="text-gray-600 body-font">
+    <button onclick = "history.go(-1)">Go back</button>
+    <hr>
     <div class="container px-5 py-24 mx-auto">
-        
         <div class="flex flex-col text-center w-full mb-20">
         <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EVENT-RECORD FOR {{specificUser.event.event_title}} </h2>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">User: {{specificUser.user.user.username}}</h1>
         </div>
+        
         <div class="flex flex-row">
 
             <div class = 'flex flex-col'> 
@@ -22,19 +24,12 @@
                         {%endif%}
                     </a>
                 </div>
-               
-                <div>
-                    <a href="{%url 'events:event-admin-playerlist' specificUser.event_id %}">
-                        <button class="flex mx-3 mt-3 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Player-list</button>
-                    </a>
-                </div>
                     
                <div>
                     <a href="{%url 'events:switch-teams' specificUser.id %}">
                         <button class="flex mx-3 mt-3 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Switch-Teams</button>
                     </a>
                </div>
-            
                
                <div>
                     <a href="{%url 'events:set-payment' specificUser.id %}">
@@ -45,18 +40,32 @@
             </div>
 
             <div class="flex flex-wrap">
+                <!--Full-Name-->
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Full-Name</h2>
+                    <p class="leading-relaxed font-medium text-base mb-4">Full-Name: {{specificUser.user.user.first_name}} {{specificUser.user.user.last_name}}</p>
+                </div>
+
+                <!--Phone-Number-->
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Phone-Number</h2>
+                    <p class="leading-relaxed font-medium text-base mb-4">Status: {{specificUser.user.user.phone_number}}</p>
+                </div>
+
+                <!--Checkin-Status-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Checkin</h2>
                     <p class="leading-relaxed font-medium text-base mb-4">Status: {{specificUser.is_checkedin}}</p>
                 </div>
                 
-    
+                <!--Invoice-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Invoice</h2>
                     <p class="leading-relaxed text-base mb-4">Paid: {{specificUser.is_paid}}</p>
                     <p class="leading-relaxed text-base mb-4">Amount: {{specificUser.amount}}</p>
                 </div>
-                
+
+                <!--Team-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Team</h2>
                     {%if specificUser.team is 0 %}
@@ -66,10 +75,19 @@
                     {%endif%}
                 </div>
                 
+                <!--Regular-Status-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Regular</h2>
                     <p class="leading-relaxed text-base mb-4">{{specificUser.user.user.is_regular}}</p>
                 </div>
+
+                <!--Beginner-Status-->
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Beginner</h2>
+                    <p class="leading-relaxed text-base mb-4">{{specificUser.user.user.is_beginner}}</p>
+                </div>
+
+                
             </div>
 
             

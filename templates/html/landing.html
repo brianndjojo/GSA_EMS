@@ -3,37 +3,239 @@
 
 {% block content %}
     <section class="text-gray-600 body-font">
-    <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
-        
-       
-        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Welcome {{request.user.username}}!</h1>
-        <p class="mb-8 leading-relaxed">Take a look at what you can do.</p>
-        
-        
-        <div class="flex justify-center">
-            <a href="{% url 'events:event-list' %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Events</button> </a>
+        <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
+            
+
+            {%if request.user.is_authenticated%}
+            <!-- component -->
+            <style>
+                body {background:white !important;}
+            </style>
+            <div class="main flex flex-col m-5">
+            
+            <!--Control-Panel for Admins-->
+            {%if request.user.is_superuser%}
+            <div class="header">
+                <div class="text-3xl font-bold text-gray-600 mb-4">Control-Panel</div>
+            </div>
+
+            <!--Manage-Users-->
+            <a href="{% url 'users:user-list' %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">Manage-Users</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            <!--Manage_Events-->
+            <a href="{% url 'events:event-admin-list'%}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">Manage-Events</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            <!--Manage-Venues-->
+            <a href="{% url 'venues:venue-admin-list' %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">Manage-Venues</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            <!--View-Admin-Dashboard-->
+            <a href="{% url 'admin:index' %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">View Admin Dashboard</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            
+
+            <!--View Account Settings-->
+            <a href="{% url 'events:event-registered' request.user.pk %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">Account-Settings</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+            {%endif%}
+            
+            {%if not request.user.is_superuser%}
+            <!--Normal Functions-->
+            <div class="header">
+                <div class="text-3xl font-bold text-gray-600 mb-4">Main-Functions</div>
+            </div>
+            <!--View Events-->
+            <a href="{% url 'events:event-list' %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">View Events</div>
+                    <div class="desc text-gray-600">this is basically used for web based scripting</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+            <!--View Venues-->
+            <a href="{% url 'venues:venue-list' %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">View Venues</div>
+                    <div class="desc text-gray-600">this is basically used for server based processing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+            <!--View Registered Events-->
+            <a href="{% url 'events:event-registered' request.user.pk %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">Registered-Events</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+            <!--View Account Settings-->
+            <a href="{% url 'events:event-registered' request.user.pk %}" target="_new">
+                <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+                <div class="left">
+                    <div class="header text-blue-600 font-semibold text-2xl">Account-Settings</div>
+                    <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+                </div>
+                <div class="right m-auto mr-0">
+                    <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+            </a>
+            {%endif%}
+            {%endif%}
         </div>
+        
+        <section class="bg-white dark:bg-gray-900">
+            <div class="container px-6 py-10 mx-auto">
+                <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">Upcoming Events</span></h1>
+                
+                {% for event in events %}
+                <div class="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-12 md:grid-cols-1 xl:grid-cols-1">
 
-        <div class="flex justify-center mt-3">
-            <a href="{% url 'venues:venue-list' %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Venues</button> </a>
+                    {%if request.user.is_superuser or event.available%}
+                    <div class="event">
+                        <div class="p-8 space-y-3 border-2 border-blue-400 dark:border-blue-300 rounded-xl">
+                            <span class="inline-block text-blue-500 dark:text-blue-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+                                </svg>
+                            </span>
+            
+                            <h1 class="text-2xl font-semibold text-gray-700 capitalize dark:text-white">{{ event.event_title }}</h1>
+            
+                            <p class="text-gray-500 dark:text-gray-300">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ab nulla quod dignissimos vel non corrupti doloribus voluptatum eveniet
+                            </p>
+
+                            <p class="leading-relaxed text-base">Event-Venue: {{ event.venue }}</p>
+                            <p class="leading-relaxed text-base">Event-Date: {{ event.event_date }}</p>
+                            <p class="leading-relaxed text-base">Capacity: {{ event.current_capacity }}</p>
+                            
+                            {% if 'myevent' in request.get_full_path and request.user.is_organizer %}
+                            <a href="{% url 'events:myevent-detail' event.pk %}" class="inline-flex p-2 text-blue-500 capitalize transition-colors duration-200 transform bg-blue-100 rounded-full dark:bg-blue-500 dark:text-white hover:underline hover:text-blue-600 dark:hover:text-blue-500">
+                            {% elif 'eventadmin' in request.get_full_path and request.user.is_superuser %}
+                            <a href="{% url 'events:event-admin-landing' event.pk %}" class="inline-flex p-2 text-blue-500 capitalize transition-colors duration-200 transform bg-blue-100 rounded-full dark:bg-blue-500 dark:text-white hover:underline hover:text-blue-600 dark:hover:text-blue-500">
+                            {% else %}
+                            <a href="{% url 'events:event-detail' event.pk %}" class="inline-flex p-2 text-blue-500 capitalize transition-colors duration-200 transform bg-blue-100 rounded-full dark:bg-blue-500 dark:text-white hover:underline hover:text-blue-600 dark:hover:text-blue-500">
+                            {%endif%}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </a>
+                        </div>
+    
+
+                    </div>
+                    {%endif%} 
+                   
+                    </div>
+                    
+                     
+                </div>
+                {% endfor %}
+
+                
+            </div>
+        </section>
+        
         </div>
-
-        {% if request.user.is_authenticated %}
-        <div class="flex justify-center mt-3">    
-            <a href="{% url 'events:event-registered' request.user.pk %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">View Registered Events</button> </a>
-        </div>
-        {%endif%}
-
-        {% if not request.user.is_authenticated %}
-        <a href="{% url 'signup' %}">
-            <button class="inline-flex items-center border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-            Sign Up
-            </button>  
-        </a>
-        {%endif%}
-
-      
-
-    </div>
     </section>
+
+    
 {% endblock content %}

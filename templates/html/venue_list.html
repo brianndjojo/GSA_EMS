@@ -7,13 +7,21 @@
     <section class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
           <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+            {% if request.user.is_superuser and 'venueadmin' in request.get_full_path%}
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Venue-Admin-View</h1>
+            <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">Admin-Panel for Venues.</p>
+            <a href="{%url 'venues:venue-create' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create new Venue.</button></a>
+            {%else%}
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">List of Venues</h1>
             <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">All available Venues.</p>
+            {%endif%}
 
-            {% if 'myvenue' in request.get_full_path and request.user.is_organizer or request.user.is_superuser %}
+
+            <!--for organizers-->
+            {% if 'myvenue' in request.get_full_path and request.user.is_organizer%}
             <a href="{%url 'venues:venue-create' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Create new Venue.</button></a>
-            
-            {% elif request.user.is_organizer or request.user.is_superuser %}
+            <!--for Organizers-->
+            {% elif request.user.is_organizer %}
             <a href="{%url 'venues:myvenue-list' %}"><button class="flex ml-auto mt-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">View my Venues.</button></a>
             {%endif%}
 

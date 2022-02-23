@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="max-w-lg m-auto">
-    <a href="{% url 'events:event-admin-list' %}">Go back to Admin-list</a>
+    <button onclick = "history.go(-1)">Go back</button>
     <hr>
     <h1>Please Input User-Credentials:</h1>
     <form method="POST">
