@@ -21,6 +21,7 @@ from users.views import LandingPageView, SignUpView
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('api/', include('rest_framework.urls')),
