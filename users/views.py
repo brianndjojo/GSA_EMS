@@ -16,14 +16,14 @@ from django.views.generic.edit import UpdateView
 
 import json
 from .forms import CustomCreationForm, UserModelForm
-from .models import User, UserProfile
+from .models import User, UserProfile, Event
 from .serializers import UserSerializer, UserModelSerializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response  import Response
 
-
+import datetime
 
 
 # Create your views here.
@@ -38,10 +38,17 @@ from rest_framework.response  import Response
 #        return UserProfile.objects.all().filter(user_id = search_user.get().id)
 #    return UserProfile.objects.all()
 
-class LandingPageView(TemplateView):
+class LandingPageView(LoginRequiredMixin, ListView):
     # Specify Template to be used.
     template_name = "landing.html"
+    context_object_name = 'events'
     
+    def get_queryset(self):
+        events = Event.objects.all()
+        current_date = datetime.datetime.now().date()
+        return events.filter(event_date__gte=current_date)
+    
+
     def get(self, *args, **kwargs):
         if(not self.request.user.is_authenticated):
             return redirect('login')

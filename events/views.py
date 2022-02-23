@@ -27,11 +27,17 @@ from users.models import User, UserProfile, Event, Signup, User
 from django.core.serializers import serialize
 from django.http import HttpResponse
 
+#import datetime
+import datetime
 
 # Create your views here.
 
 # Both GET and POST method is used to transfer data from client to server in HTTP protocol but Main difference between POST and GET method is that GET carries request parameter appended in URL string while POST carries request parameter in message body which makes it more secure way of transferring data from client to ...
 # So essentially GET is used to retrieve remote data, and POST is used to insert/update remote data.
+
+#Upcoming Events for landing.html
+  
+
 
 # Filter Events
 def search_event(request):
@@ -42,6 +48,7 @@ def search_event(request):
     if(search_event.exists()):
         return events.filter(event_title = search_filter)
     return Event.objects.all()
+    
 
 # List View to display Events
 class EventListView(LoginRequiredMixin, ListView):
@@ -210,6 +217,8 @@ def event_unregister(request, pk):
     # dictionary for initial data with
     # field names as keys
     context = {}
+
+    context['error'] = 'You are already registered!'
  
     # fetch the specific event
     event = get_object_or_404(Event, id = pk)
@@ -235,29 +244,61 @@ def event_unregister(request, pk):
         # after deleting redirect to
         # home page
         print("Cannot Unregister since you are already checked in...")
-        return redirect("events:event-unregister", event.pk)
+        return redirect("events:event-unregister-2", event.pk)
     
     return render(request, "event_unregister.html", context)   
 
 ##############################
-# For Checkin/Checkout System #
+# For Managing Events #
 ##############################
 
+## EVENT MANAGEMENT LANDING PAGE ##
+#class EventAdminLandingPageView(AdminRequiredMixin ,DetailView):
+    # Specify Template to be used.
+#    template_name = "event-admin-landing.html"
+#    context_object_name = 'event'
+    
+#    def get_queryset(self):
+#        selectedEvent = Event.objects.filter(pk=self.kwargs.get('pk'))
+#       return selectedEvent
 
-##############################
-# For Checkin #
-##############################
+## PLAYER-LIST FOR EVENT MANAGEMENT ##
+class EventAdminPlayerListView(AdminRequiredMixin ,ListView):
+    # Specify Template to be used.
+    template_name = "player_list.html"
+    context_object_name = 'players'
+    
+    def get_queryset(self):
+        signup_pk = self.kwargs.get('pk')
+        signedup_event = Signup.objects.filter(event_id = signup_pk)
+        print('retrieved signups',signedup_event)
+        return Signup.objects.filter(event_id = signup_pk)
 
-class EventAdminLandingPageView(AdminRequiredMixin ,DetailView):
+class EventAdminLandingPageView(AdminRequiredMixin , DetailView):
     # Specify Template to be used.
     template_name = "event-admin-landing.html"
     context_object_name = 'event'
-    
-    def get_queryset(self):
-        selectedEvent = Event.objects.filter(pk=self.kwargs.get('pk'))
-        return selectedEvent
-    
 
+    def get_queryset(self):
+        # Get Specific event
+        specific_event = Event.objects.filter(pk=self.kwargs.get('pk'))
+        print('specific event', specific_event)
+
+        return specific_event
+
+    def get_context_data(self, **kwargs):
+        # Retrieve Context to Override.
+        context = super().get_context_data(**kwargs)
+
+        # Get signups of specific event
+        signup_pk = self.kwargs.get('pk')
+        signedup_event = Signup.objects.filter(event_id = signup_pk)
+        print('retrieved signups',signedup_event)
+        context['players'] = signedup_event
+
+        return context
+
+## CHECKIN-CHECKOUT SYSTEM ##
 class CheckinCheckoutInputView(AdminRequiredMixin, FormView):
     # Specify template to be used
     template_name = "checkin_checkout_input.html"
@@ -305,8 +346,7 @@ class CheckinCheckoutInputView(AdminRequiredMixin, FormView):
             print('user does not exist..')
             return redirect('events:checkin-checkout-input', current_event)
                     
-
-    
+## MANAGEMENT-INTERFACE FOR SPECIFIC PLAYER ##    
 class EventAdminUserView(AdminRequiredMixin, DetailView):
     # Specify template to be used
     template_name = "event-admin-user.html"
@@ -323,6 +363,7 @@ class EventAdminUserView(AdminRequiredMixin, DetailView):
 
         return specific_signup
 
+## CHECKIN-CHECKOUT FOR SPECIFIC USER ##
 class CheckinCheckoutUpdateView(AdminRequiredMixin, DetailView):
     template_name = "event-admin-user.html"
     context_object_name = "specificUser"
@@ -358,8 +399,7 @@ class CheckinCheckoutUpdateView(AdminRequiredMixin, DetailView):
             print('user is not registered..')
             return signedup_event
             
-  
-# Switch Teams
+## SWITCH TEAMS FOR SPECIFIC USER ##
 def switch_teams(request, pk):
     # dictionary for initial data with
     # field names as keys
@@ -380,7 +420,7 @@ def switch_teams(request, pk):
     print("team after:", signup.team)
     return redirect("events:event-manage-user", pk)   
 
-# Set Payment
+## TOGGLE PAYMENT FOR USER ##
 def set_payment(request, pk):
     # dictionary for initial data with
     # field names as keys
@@ -402,27 +442,7 @@ def set_payment(request, pk):
     return redirect("events:event-manage-user", pk)   
     
         
-class EventAdminPlayerListView(AdminRequiredMixin ,ListView):
-    # Specify Template to be used.
-    template_name = "player_list.html"
-    context_object_name = 'players'
-    
-    def get_queryset(self):
-        signup_pk = self.kwargs.get('pk')
-        signedup_event = Signup.objects.filter(event_id = signup_pk)
-        print('retrieved signups',signedup_event)
-        return Signup.objects.filter(event_id = signup_pk)
 
 
-def return_events_json(request):
-    events = Event.objects.all()
-    data = serialize("json", events, fields=('title', 'content'))
-    return HttpResponse(data, content_type="application/json")
 
-
-class CalendarView(LoginRequiredMixin, ListView):
-    template_name = "calendar.html"
-    
-    def get_queryset(self):
-        return return_events_json(self.request)
     

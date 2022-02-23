@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from .views import EventListView, EventCreateView, EventDetailView, EventDeleteView, EventUpdateView, EventSignupView, MyEventListView, EventRegisteredView,  EventAdminLandingPageView, CheckinCheckoutInputView, EventAdminUserView, CheckinCheckoutUpdateView, event_unregister, switch_teams, set_payment, EventAdminPlayerListView, CalendarView
+from .views import EventListView, EventCreateView, EventDetailView, EventDeleteView, EventUpdateView, EventSignupView, MyEventListView, EventRegisteredView,  EventAdminLandingPageView, CheckinCheckoutInputView, EventAdminUserView, CheckinCheckoutUpdateView, event_unregister, switch_teams, set_payment, EventAdminPlayerListView 
 from django.shortcuts import redirect, render, reverse
 from django.http import HttpResponse
 
@@ -32,12 +32,15 @@ urlpatterns = [
     path('<int:pk>/registeredDetail', EventDetailView.as_view(), name = 'event-registered-detail'),
     path('<int:pk>/unregister/', event_unregister, name='event-unregister'),
 
+    # Path when user tries to Unregister, but is still checked in and has not yet paid!
+    path('<int:pk>/unregister_nopay/', event_unregister, name='event-unregister-2'),
+
     path('create/', EventCreateView.as_view(), name='event-create'),
 
     path('eventadmin/', EventListView.as_view(), name='event-admin-list'),
     path('eventadmin/<int:pk>/', EventAdminLandingPageView.as_view(), name='event-admin-landing'),
     path('eventadmin/<int:pk>/checkincheckout/', CheckinCheckoutInputView.as_view(), name='checkin-checkout-input'),
-    path('eventadmin/<int:pk>/playerlist', EventAdminPlayerListView.as_view(), name='event-admin-playerlist'),
+
     
     path('eventmanage/<int:pk>/', EventAdminUserView.as_view(), name='event-manage-user'),
     path('eventmanage/<int:pk>/update', CheckinCheckoutUpdateView.as_view(), name='checkin-checkout-update'),
@@ -48,7 +51,5 @@ urlpatterns = [
     path('myevents/<int:pk>/', EventDetailView.as_view(), name = 'myevent-detail'),
     path('myevents/<int:pk>/update/', EventUpdateView.as_view(), name = 'myevent-update'),
     path('myevents/<int:pk>/delete/', EventDeleteView.as_view(), name='myevent-delete'),
-
-    path('calendar', CalendarView.as_view(), name="calendar"),
     
 ]

@@ -29,6 +29,7 @@ urlpatterns = [
     path('<int:pk>/delete/', VenueDeleteView.as_view(), name='venue-delete'),
     path('create/', VenueCreateView.as_view(), name='venue-create'),
 
+    path('venueadmin', VenueListView.as_view(), name='venue-admin-list'),
 
     path('myvenues/', MyVenueListView.as_view(), name = 'myvenue-list'),
     path('myvenues/<int:pk>/', VenueDetailView.as_view(), name = 'myvenue-detail'),
