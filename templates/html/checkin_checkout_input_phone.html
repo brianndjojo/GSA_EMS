@@ -1,12 +1,18 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load tailwind_filters %}
 
 {% block content %}
 <div class="max-w-lg m-auto">
-    <a href="{% url 'events:event-list' %}">Go back to Event list</a>
+    <button onclick = "history.go(-1)">Go back</button>
     <hr>
-        
-    {% if is_full %}
+    <h1>Please Input User-Credentials:</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class='text-white w-full bg-blue-500 hover:bg-blue-600 px-3 py-1'>Verify</button>
+    </form>
+    <!--Error List so that Admin knows user cannot checkout if he/she has not paid..-->
+    {% if request.session.noregister %}
     <!-- component -->
     <div class="bg-red-50 border-l-8 border-red-900 mt-3">
         <div class="flex items-center">
@@ -24,20 +30,12 @@
                     <p class="px-6 py-4 text-red-900 font-semibold text-lg">Error!</p>
                 </div>
                 <div class="px-16 mb-4">
-                    <li class="text-md font-bold text-red-500 text-sm">Event is already full! Cannot Sign up.</li>
+                    <li class="text-md font-bold text-red-500 text-sm">User is not registered!</li>
                 </div>
             </div>
         </div>
     </div>
-    {% else %}
-    <h1>Are you sure you want to Sign Up?</h1>
+    {%endif%}
 
-    <form method="POST" class="mt-3">
-        {% csrf_token %}
-        
-        <button type="submit" class='text-white w-full bg-blue-500 hover:bg-blue-600 px-3 py-1'>Register</button>
-    </form>
-    {% endif %}
 </div>
 {% endblock content %}
-

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+
+{% block content %}
+<!-- component -->
+<section class="text-gray-600 body-font">
+    <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
+        {%if request.user.is_authenticated%}
+        <!-- component -->
+        <style>
+            body {background:white !important;}
+        </style>
+        <div class="main flex flex-col m-5">
+        
+        <!--Control-Panel for Settings-->
+
+        <div class="header">
+            <div class="text-3xl font-bold text-gray-600 mb-4">Account-Settings</div>
+        </div>
+
+        <!--Change-Password-->
+        <a href="{% url 'update-password' request.user.pk %}" target="_new">
+            <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+            <div class="left">
+                <div class="header text-blue-600 font-semibold text-2xl">Reset Password</div>
+                <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+            </div>
+            <div class="right m-auto mr-0">
+                <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                </div>
+            </div>
+            </div>
+        </a>
+
+        <!--Update-Contact-Information-->
+        <a href="{% url 'update-account' request.user.pk%}" target="_new">
+            <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+            <div class="left">
+                <div class="header text-blue-600 font-semibold text-2xl">Update Account-Information</div>
+                <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+            </div>
+            <div class="right m-auto mr-0">
+                <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                </div>
+            </div>
+            </div>
+        </a>
+
+        <!--Disable Account-->
+        <a href="{% url 'delete-account' request.user.pk %}" target="_new">
+            <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+            <div class="left">
+                <div class="header text-blue-600 font-semibold text-2xl">Disable-Account</div>
+                <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+            </div>
+            <div class="right m-auto mr-0">
+                <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                </div>
+            </div>
+            </div>
+        </a>
+
+        {%endif%}
+</section>
+{% endblock content %}

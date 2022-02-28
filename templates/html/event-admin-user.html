@@ -4,17 +4,28 @@
 {% block content %}
   
     <section class="text-gray-600 body-font">
-    <button onclick = "history.go(-1)">Go back</button>
+    <div>
+        <a href="{%url 'events:event-admin-landing' specificUser.event.id %}">Go back</a>
+    </div>   
     <hr>
     <div class="container px-5 py-24 mx-auto">
+        <!--View Player-List-->
+        
+
         <div class="flex flex-col text-center w-full mb-20">
-        <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EVENT-RECORD FOR {{specificUser.event.event_title}} </h2>
+        <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">EVENT-RECORD FOR {{specificUser.event.event_title}}  </h2>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">User: {{specificUser.user.user.username}}</h1>
         </div>
         
+        <div>
+            <a href="{%url 'events:event-admin-landing' specificUser.event.id %}">View Player-List</a>
+        </div>   
+        <hr>
         <div class="flex flex-row">
-
+            
             <div class = 'flex flex-col'> 
+                
+                <!--Checkin-Checkout Toggle-->
                 <div>
                     <a href="{%url 'events:checkin-checkout-update' specificUser.id %}">
                         {%if specificUser.is_checkedin is True%}
@@ -24,18 +35,20 @@
                         {%endif%}
                     </a>
                 </div>
-                    
-               <div>
+                <!--Switch Teams-->
+                <div>
                     <a href="{%url 'events:switch-teams' specificUser.id %}">
                         <button class="flex mx-3 mt-3 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Switch-Teams</button>
                     </a>
-               </div>
-               
-               <div>
+                </div>
+                <!--Payment Toggle-->
+                <div>
                     <a href="{%url 'events:set-payment' specificUser.id %}">
                         <button class="flex mx-3 mt-3 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Set-Payment</button>
                     </a>
-               </div>
+                </div>
+                
+            
                 
             </div>
 
@@ -43,13 +56,13 @@
                 <!--Full-Name-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Full-Name</h2>
-                    <p class="leading-relaxed font-medium text-base mb-4">Full-Name: {{specificUser.user.user.first_name}} {{specificUser.user.user.last_name}}</p>
+                    <p class="leading-relaxed font-medium text-base mb-4">{{specificUser.user.user.first_name}} {{specificUser.user.user.last_name}}</p>
                 </div>
 
                 <!--Phone-Number-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Phone-Number</h2>
-                    <p class="leading-relaxed font-medium text-base mb-4">Status: {{specificUser.user.user.phone_number}}</p>
+                    <p class="leading-relaxed font-medium text-base mb-4">{{specificUser.user.user.phone_number}}</p>
                 </div>
 
                 <!--Checkin-Status-->
@@ -61,8 +74,8 @@
                 <!--Invoice-->
                 <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
                     <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Invoice</h2>
-                    <p class="leading-relaxed text-base mb-4">Paid: {{specificUser.is_paid}}</p>
-                    <p class="leading-relaxed text-base mb-4">Amount: {{specificUser.amount}}</p>
+                    <p class="leading-relaxed text-base font-medium mb-4">Paid: {{specificUser.is_paid}}</p>
+                    <p class="leading-relaxed text-base font-medium mb-4">Amount: {{specificUser.amount}}</p>
                 </div>
 
                 <!--Team-->
@@ -92,8 +105,32 @@
 
             
         </div>
-        
-        
+
+        <!--Error List so that Admin knows user cannot checkout if he/she has not paid..-->
+        {% if paidStatus %}
+        <!-- component -->
+        <div class="bg-red-50 border-l-8 border-red-900 mt-3">
+            <div class="flex items-center">
+                <div class="p-2">
+                    <div class="flex items-center">
+                        <div class="ml-2">
+                            <svg class="h-8 w-8 text-red-900 mr-2 cursor-pointer"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="px-6 py-4 text-red-900 font-semibold text-lg">Error!</p>
+                    </div>
+                    <div class="px-16 mb-4">
+                        <li class="text-md font-bold text-red-500 text-sm">{{paidStatus}}</li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endif%}
 
        
         

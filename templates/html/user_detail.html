@@ -25,6 +25,11 @@
                 </div>
 
                 <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">RFID:</span>
+                    <span class="ml-auto text-gray-900">{{ user.rfid }}</span>
+                </div>
+
+                <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Full Name:</span>
                     <span class="ml-auto text-gray-900">{{ user.user.first_name }} {{ user.user.last_name }}</span>
                 </div>
@@ -70,9 +75,12 @@
             
             <div class="flex">
                 {% if request.user.is_superuser %}
-                <a href="{%url 'users:user-update' user.pk %}"><button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Update</button></a>
+                <a href="{%url 'users:user-update' user.pk %}"><button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded">Update</button></a>
                 
-                <a href="{%url 'users:user-delete' user.pk %}"><button class="flex ml-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</button></a>
+                <a href="{%url 'users:user-delete' user.pk %}"><button class="flex ml-4 text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded">Delete</button></a>
+                
+
+                <a href="{%url 'users:rfid-input' user.pk %}"><button class="flex ml-4 text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded">Update-RFID</button></a>
                 {% endif %}
             </div>
             

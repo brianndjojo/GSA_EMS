@@ -14,9 +14,44 @@
 
          
           <div class="flex justify-center">
-              <a href="{% url 'events:checkin-checkout-input' event.pk %}"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Checkin-Checkout</button> </a>
+            <!--Change-Password-->
+            <a href="{% url 'events:checkin-checkout-input-phone' event.pk %}" target="_new">
+              <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+              <div class="left">
+                  <div class="header text-blue-600 font-semibold text-2xl">Checkin w/ Phone-Number</div>
+                  <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+              </div>
+              <div class="right m-auto mr-0">
+                  <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  </div>
+              </div>
+              </div>
+            </a>
+
+            <!--Update-Contact-Information-->
+            <a href="{% url 'events:checkin-checkout-input-rfid' event.pk%}" target="_new">
+              <div class="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 cursor-pointer">
+              <div class="left">
+                  <div class="header text-blue-600 font-semibold text-2xl">Checkin w/ RFID</div>
+                  <div class="desc text-gray-600">this is basically used for web based front end designing</div>
+              </div>
+              <div class="right m-auto mr-0">
+                  <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  </div>
+              </div>
+              </div>
+            </a>
           </div>
           
+          
+          
+
          
           <table class="table-auto w-full text-left whitespace-no-wrap mt-3">
             <thead>
