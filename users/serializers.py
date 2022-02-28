@@ -23,8 +23,8 @@ class UserSerializer(serializers.Serializer):
         instance.save()
         return instance
 
-
+# Serializes the data in a convenient way to return JSON with only specified fields below..
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username']

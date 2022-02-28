@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from .views import MemberListView, MemberDetailView, MemberUpdateView, MemberDeleteView, MemberListAPI, MemberListAPIDetail
+from .views import MemberListView, MemberDetailView, MemberUpdateView, MemberDeleteView, MemberListAPI, MemberListAPIDetail, RfidInputView
 from django.shortcuts import redirect, render, reverse
 from django.http import HttpResponse
 from django.conf.urls.static import static
@@ -29,6 +29,7 @@ urlpatterns = [
     path('<int:pk>/', MemberDetailView.as_view(), name = 'user-detail'),
     path('<int:pk>/update/', MemberUpdateView.as_view(), name = 'user-update'),
     path('<int:pk>/delete/', MemberDeleteView.as_view(), name='user-delete'),
+    path('<int:pk>/rfid/', RfidInputView.as_view(), name='rfid-input'),
     
     # Django-REST Framework
     path('api/', MemberListAPI.as_view()),

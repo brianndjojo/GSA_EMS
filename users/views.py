@@ -15,7 +15,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
 
 import json
-from .forms import CustomCreationForm, UserModelForm
+from .forms import CustomCreationForm, RfidInputForm, UserModelForm
 from .models import User, UserProfile, Event
 from .serializers import UserSerializer, UserModelSerializer
 from rest_framework.renderers import JSONRenderer
@@ -43,6 +43,7 @@ class LandingPageView(LoginRequiredMixin, ListView):
     template_name = "landing.html"
     context_object_name = 'events'
     
+    # returns upcoming events for landing-page when user logs in
     def get_queryset(self):
         events = Event.objects.all()
         current_date = datetime.datetime.now().date()
@@ -53,6 +54,7 @@ class LandingPageView(LoginRequiredMixin, ListView):
         if(not self.request.user.is_authenticated):
             return redirect('login')
         return super().get(self.request, *args, **kwargs)
+
 
     
 
@@ -145,8 +147,18 @@ class MemberDeleteView(AdminRequiredMixin, DeleteView):
         print(specific_user)
         return specific_user
     
-        
+class RfidInputView(AdminRequiredMixin, UpdateView):
+    template_name = "rfid_update.html"
+    form_class = RfidInputForm
 
+    def get_success_url(self) -> str:
+        return reverse('users:user-list')
+
+    def get_queryset(self):
+        print(self.kwargs.get('pk'))
+        user_id = self.kwargs.get('pk')
+        retrieved_profile = UserProfile.objects.filter(id = user_id)
+        return retrieved_profile
     
 
 

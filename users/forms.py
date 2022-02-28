@@ -39,6 +39,12 @@ class CustomCreationForm(UserCreationForm):
         }
         field_classes = {'username': UsernameField}
 
-
-
+# For admin to input RFID
+class RfidInputForm(forms.ModelForm):
+    # Meta specifies information about the form.
+    class Meta:
+        model = UserProfile
+        fields = {
+            'rfid'
+        }
 
