@@ -18,6 +18,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, 
 from django.urls import path
 from django.urls.conf import include
 from users.views import LandingPageView, SignUpView
+from .views import AccountSettingsView, ChangePasswordView, UpdateAccountView, AccountDeleteView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -37,4 +38,10 @@ urlpatterns = [
     path('reset/complete', PasswordResetCompleteView.as_view(), name="password_reset_complete"),
     path('reset/done', PasswordResetDoneView.as_view(), name="password_reset_done"),
     path('reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+
+    path('settings/', AccountSettingsView.as_view(), name='user-settings'),
+    path('settings/changepassword/<int:pk>', ChangePasswordView.as_view(), name='update-password'),
+    path('settings/updateinformation/<int:pk>', UpdateAccountView.as_view(), name='update-account'),
+    path('settings/deleteaccount/<int:pk>', AccountDeleteView.as_view(), name='delete-account'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
