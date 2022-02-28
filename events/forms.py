@@ -4,6 +4,7 @@ from django.db.models import fields
 from users.models import User, UserProfile, Venue, Event,  Signup
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model # Returns the active model within this project.
+from django.core.validators import RegexValidator
 # Creating Form Template.. Similar to models    
 
 
@@ -35,9 +36,14 @@ class EventSignupForm(forms.ModelForm):
             "is_registered"
         }
 
-#For checking in & checking out of event
-class UserInputForm(forms.Form):
-    username = forms.CharField(max_length=20)
+#For checking in & checking out of event w/ Phone Number
+class PhoneNumberInputForm(forms.Form):
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = forms.CharField(validators=[phone_regex], max_length=17)
+
+#For checking in & checking out of event w/ RFID
+class RfidInputForm(forms.Form):
+    rfid = models.CharField(max_length=17)
 
 
    
