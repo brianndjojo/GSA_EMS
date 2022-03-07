@@ -37,10 +37,6 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 
-
-
-ALLOWED_HOSTS = []
-
 GOOGLE_MAPS_API_KEY = 'AIzaSyDvhBmLgo9qIYMKf5aLElPHt8wEcITWXiE'
 
 # Application definition
