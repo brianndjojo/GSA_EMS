@@ -231,12 +231,7 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     X_FRAME_OPTIONS = "DENY"
 
-    ALLOWED_HOSTS = [
-        '*',
-        'https://gsa-ems-ot87b.ondigitalocean.app/',
-        'gsa-ems-ot87b.ondigitalocean.app',
-        '127.0.0.1',
-        ]
+    ALLOWED_HOSTS = ['gsa-ems-ot87b.ondigitalocean.app']
 
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = env("EMAIL_HOST")
