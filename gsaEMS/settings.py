@@ -99,6 +99,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'gsaEMS.urls'
 
+ALLOWED_HOSTS = [
+        '*', 
+        'gsa-ems-ot87b.ondigitalocean.app',
+        'https://gsa-ems-ot87b.ondigitalocean.app/',
+        'gsa-ems-ot87b.ondigitalocean.app/'
+        ]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
