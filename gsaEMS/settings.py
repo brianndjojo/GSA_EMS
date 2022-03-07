@@ -235,6 +235,7 @@ if not DEBUG:
         '*',
         'https://gsa-ems-ot87b.ondigitalocean.app/',
         'gsa-ems-ot87b.ondigitalocean.app/',
+        'gsa-ems-ot87b.ondigitalocean.app',
         '127.0.0.1',
         ]
 
