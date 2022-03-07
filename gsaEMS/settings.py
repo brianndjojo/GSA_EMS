@@ -233,7 +233,9 @@ if not DEBUG:
 
     ALLOWED_HOSTS = [
         '*',
-        "https://gsa-ems-ot87b.ondigitalocean.app/"
+        'https://gsa-ems-ot87b.ondigitalocean.app/',
+        'gsa-ems-ot87b.ondigitalocean.app/',
+        '127.0.0.1',
         ]
 
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
