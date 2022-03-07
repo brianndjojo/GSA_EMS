@@ -12,19 +12,32 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+
+env = environ.Env(Debug=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Path for Environ to encrypt secret key
+BASE_DIR2 = Path(__file__).resolve().parent
+# Take environment variables from .env file
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+#READ_DOT_ENV_FILE = env.bool('READ_DOT_ENV_FILE', default=False)
+#if READ_DOT_ENV_FILE:
+#    environ.Env.read_env(os.path.join(BASE_DIR2, '.env'))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%1pm6is(021&k5p=v5wv&s+$05knl!%@2oib19lc=!k7ge!8x2'
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR2, '.env'))
+# False if not in os.environ because of casting above
+DEBUG = env('DEBUG')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Raises Django's ImproperlyConfigured
+# exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
+
+
+
 
 ALLOWED_HOSTS = []
 
@@ -39,6 +52,7 @@ GOOGLE_MAPS_API_KEY = 'AIzaSyDvhBmLgo9qIYMKf5aLElPHt8wEcITWXiE'
 # To check whether the website is secure enough: https://djcheckup.com/
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,6 +68,8 @@ INSTALLED_APPS = [
     #FOR SECURITY
     #https://github.com/dmpayton/django-admin-honeypot
     'admin_honeypot',
+    
+   
   
 
     #local apps
@@ -75,12 +91,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'gsaEMS.urls'
@@ -107,13 +125,23 @@ WSGI_APPLICATION = 'gsaEMS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -163,6 +191,7 @@ STATICFILES_DIRS = [
 
 
 STATIC_ROOT = "static_root"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Informs Django which apps have customized user-models..
 AUTH_USER_MODEL = 'users.User'
