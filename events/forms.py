@@ -31,9 +31,7 @@ class EventSignupForm(forms.ModelForm):
     class Meta:
         model = Signup 
         fields = {
-            "user",
-            "event",
-            "is_registered"
+            "team"
         }
 
 #For checking in & checking out of event w/ Phone Number
@@ -42,8 +40,8 @@ class PhoneNumberInputForm(forms.Form):
     phone_number = forms.CharField(validators=[phone_regex], max_length=17)
 
 #For checking in & checking out of event w/ RFID
-class RfidInputForm(forms.Form):
-    rfid = models.CharField(max_length=17)
+class RfidInputForm2(forms.Form):
+    rfid = forms.CharField(max_length=17)
 
 
    

@@ -19,7 +19,7 @@ from users.rolemixin import OrganizerRequiredMixin, AdminRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView, FormView
 
-from .forms import EventInputForm, EventSignupForm, PhoneNumberInputForm, RfidInputForm
+from .forms import EventInputForm, EventSignupForm, PhoneNumberInputForm, RfidInputForm2
 #from django.contrib.auth.models import User
 from users.models import User, UserProfile, Event, Signup, User
 
@@ -393,7 +393,7 @@ class CheckinCheckoutPhoneInputView(AdminRequiredMixin, FormView):
 class CheckinCheckoutRFIDInputView(AdminRequiredMixin, FormView):
     template_name = "checkin_checkout_input_rfid.html"
     # Specify form to be used
-    form_class = RfidInputForm
+    form_class = RfidInputForm2
 
     context_object_name = "checkin"
     # Specify Query Set
