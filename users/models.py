@@ -15,6 +15,7 @@ from django.dispatch import receiver
 #post_save used to add new info to DB when data is already comitted to DB.
 
 from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class User(AbstractUser):
     # Fields below determien what type of user you are..
@@ -85,7 +86,10 @@ class Signup(models.Model):
     is_checkedin = models.BooleanField(default=False)
     # Team-assigned to player
     # 0 = Team Blue, 1 = Team Red
-    team = models.IntegerField(default=0)
+    team = models.IntegerField(default=0, validators=[
+            MaxValueValidator(1),
+            MinValueValidator(0)
+        ])
 
     # to check whether user has paid.
     is_paid = models.BooleanField(null = True, default=False)
