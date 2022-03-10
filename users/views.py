@@ -157,7 +157,7 @@ class RfidInputView(AdminRequiredMixin, UpdateView):
     def get_queryset(self):
         print(self.kwargs.get('pk'))
         user_id = self.kwargs.get('pk')
-        retrieved_profile = UserProfile.objects.filter(id = user_id)
+        retrieved_profile = User.objects.filter(id = user_id)
         return retrieved_profile
     
 

@@ -28,12 +28,12 @@ class User(AbstractUser):
     organisation_name = models.CharField(max_length=20, null=True, default="None")
     is_regular = models.BooleanField(default=False)
     is_beginner = models.BooleanField(default=False)
-
+    rfid = models.CharField(max_length=100, blank=True)
     
 # User Profile manages all details for users.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rfid = models.CharField(max_length=100, blank=True, null=True)
+    
 
     def __str__(self):
         return self.user.username
