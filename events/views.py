@@ -203,6 +203,8 @@ class EventSignupView(LoginRequiredMixin, CreateView):
         existStatus = Signup.objects.filter(event = selectedEvent).filter(user = currentUser)
         
         print('Event-exists:',existStatus.exists())
+        print('Selected-Event Capacity:', selectedEvent.current_capacity)
+        print('Selected-Event:', selectedEvent.event_title)
         # check if user is already registered and capacity is > 0
         if(existStatus.exists() == False and selectedEvent.current_capacity > 0):
             # Signup
