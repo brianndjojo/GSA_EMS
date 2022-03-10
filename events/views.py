@@ -419,7 +419,9 @@ class CheckinCheckoutRFIDInputView(AdminRequiredMixin, FormView):
         current_event = self.kwargs.get('pk')
         print('Event_Pk:', current_event)
 
-        specific_user = UserProfile.objects.all().filter(rfid = checkin_number)
+        specific_user = User.objects.all().filter(rfid = checkin_number)
+
+        print(specific_user.exists())
         if(specific_user.exists()):
             print('User_PK:', specific_user.get().id)
 
