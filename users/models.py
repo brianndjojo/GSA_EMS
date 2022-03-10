@@ -33,7 +33,7 @@ class User(AbstractUser):
 # User Profile manages all details for users.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rfid = models.CharField(max_length=100, null=True, blank=True, unique=False)
+    rfid = models.CharField(max_length=100, blank=True, unique=False)
 
     def __str__(self):
         return self.user.username
