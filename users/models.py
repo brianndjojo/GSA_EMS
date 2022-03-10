@@ -86,7 +86,10 @@ class Signup(models.Model):
     is_checkedin = models.BooleanField(default=False)
     # Team-assigned to player
     # 0 = Team Blue, 1 = Team Red
-    team = models.IntegerField(default=0)
+    team = models.IntegerField(default=0, validators=[
+            MaxValueValidator(1),
+            MinValueValidator(0)
+        ])
 
     # to check whether user has paid.
     is_paid = models.BooleanField(null = True, default=False)
@@ -94,7 +97,7 @@ class Signup(models.Model):
 
     amount = models.IntegerField(default=0)
     description = models.CharField(max_length=20, null=True, blank=True)
-    attachments = models.CharField(max_length=20, null=True, blank=True)
+    attachments = models.CharField(max_length=20,blank=True)
     # returns objects in string format
     def __str__(self):
         return f"{self.user} {self.event} {self.is_checkedin}"
