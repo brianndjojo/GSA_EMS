@@ -43,7 +43,7 @@ class CustomCreationForm(UserCreationForm):
 class RfidInputForm(forms.ModelForm):
     # Meta specifies information about the form.
     class Meta:
-        model = UserProfile
+        model = User
         fields = {
             'rfid'
         }
